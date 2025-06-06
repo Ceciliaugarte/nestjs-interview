@@ -9,8 +9,8 @@ describe('TodoListsController', () => {
 
   beforeEach(async () => {
     todoListService = new TodoListsService([
-      { id: 1, name: 'test1' },
-      { id: 2, name: 'test2' },
+      { id: 1, name: 'test1', tasks: [] },
+      { id: 2, name: 'test2', tasks: [] },
     ]);
 
     const app: TestingModule = await Test.createTestingModule({
@@ -50,7 +50,7 @@ describe('TodoListsController', () => {
   });
 
   describe('create', () => {
-    it('should update the todolist with the given id', () => {
+    it('should a new todolist', () => {
       expect(todoListsController.create({ name: 'new' })).toEqual({
         id: 3,
         name: 'new',

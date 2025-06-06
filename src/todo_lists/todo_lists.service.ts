@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTodoListDto } from './dtos/create-todo_list';
 import { UpdateTodoListDto } from './dtos/update-todo_list';
 import { TodoList } from '../interfaces/todo_list.interface';
@@ -8,7 +8,7 @@ export class TodoListsService {
   private readonly todolists: TodoList[];
 
   constructor(todoLists: TodoList[] = []) {
-    this.todolists = todoLists;
+    this.todolists = todoLists ?? [];
   }
 
   all(): TodoList[] {
@@ -16,13 +16,16 @@ export class TodoListsService {
   }
 
   get(id: number): TodoList {
-    return this.todolists.find((x) => x.id === Number(id));
+    const todolist = this.todolists.find((list) => list.id == Number(id));
+    if (!todolist) throw new NotFoundException(`Todo list not found`);
+    return todolist;
   }
 
   create(dto: CreateTodoListDto): TodoList {
     const todoList: TodoList = {
       id: this.nextId(),
       name: dto.name,
+      tasks: [],
     };
 
     this.todolists.push(todoList);
@@ -31,20 +34,19 @@ export class TodoListsService {
   }
 
   update(id: number, dto: UpdateTodoListDto): TodoList {
-    const todolist = this.todolists.find((x) => x.id == Number(id));
+    const todolist = this.todolists.find((list) => list.id == Number(id));
+    if (!todolist) throw new NotFoundException(`Todo list not found`);
 
-    // Update the record
     todolist.name = dto.name;
 
     return todolist;
   }
 
   delete(id: number): void {
-    const index = this.todolists.findIndex((x) => x.id == Number(id));
+    const index = this.todolists.findIndex((list) => list.id == Number(id));
 
-    if (index > -1) {
-      this.todolists.splice(index, 1);
-    }
+    if (index === -1) throw new NotFoundException(`Todo list not found`);
+    this.todolists.splice(index, 1);
   }
 
   private nextId(): number {

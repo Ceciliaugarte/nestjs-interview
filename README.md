@@ -1,8 +1,15 @@
-# nextjs-interview / TodoApi
+Check integration tests at: (https://github.com/crunchloop/interview-tests)
 
-[![Open in Coder](https://dev.crunchloop.io/open-in-coder.svg)](https://dev.crunchloop.io/templates/fly-containers/workspace?param.Git%20Repository=git@github.com:crunchloop/nextjs-interview.git)
+---
 
-This is a simple Todo List API built in Nest JS and Typescript. This project is currently being used for Javascript/Typescript full-stack candidates.
+# 📝 ToDo List API
+
+A simple RESTful API for managing task lists (`TodoLists`) and their tasks (`Todotasks`), built with **NestJS** and **Typescript**.
+
+This API allows users to:
+
+- Create, view, update, and delete **ToDo Lists**.
+- Add, view, update, and delete **ToDo tasks** within lists.
 
 ## Installation
 
@@ -36,14 +43,62 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-Check integration tests at: (https://github.com/crunchloop/interview-tests)
+## 📦 API Endpoints
 
-## Contact
+### 🗂️ TodoLists
 
-- Martín Fernández (mfernandez@crunchloop.io)
+- `GET /api/todolists` – Get all lists
+- `GET /api/todolists/:todoListId` – Get list by ID
+- `POST /api/todolists` – Create new list
+- `PUT /api/todolists/:todoListId` – Update list
+- `DELETE /api/todolists/:todoListId` – Delete list
 
-## About Crunchloop
+### ✅ Todotasks
 
-![crunchloop](https://s3.amazonaws.com/crunchloop.io/logo-blue.png)
+- `GET /api/todotasks` – Get all tasks
+- `GET /api/todotasks/:todotaskId` – Get task by ID
+- `POST /api/todotasks` – Create new task
+- `PUT /api/todotasks/:todotaskId` – Update task
+- `DELETE /api/todotasks/:todotaskId` – Delete task
 
-We strongly believe in giving back :rocket:. Let's work together [`Get in touch`](https://crunchloop.io/#contact).
+> ℹ️ When a `TodoList` is deleted, all its associated `Todotasks` are also removed automatically.
+
+## Example Request Payloads
+
+### Create a TodoList
+
+```json
+{
+  "name": "Groceries"
+}
+```
+
+### Update a TodoList
+
+PUT /api/todolists/1
+
+```json
+{
+  "name": "Weekend Groceries"
+}
+```
+
+### Create a Todotask
+
+```json
+{
+  "description": "Buy eggs",
+  "todoListId": 1
+}
+```
+
+### Update a Todotask
+
+PUT /api/todotasks/2
+
+```json
+{
+  "description": "Buy organic eggs",
+  "completed": true
+}
+```
