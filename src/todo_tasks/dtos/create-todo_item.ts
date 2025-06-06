@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class CreateTodoTaskDto {
+export class CreateTodoItemDto {
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
 

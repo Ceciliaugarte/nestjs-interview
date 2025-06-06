@@ -1,23 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TodoTasksController } from './todo_tasks.controller';
-import { TodoTasksService } from './todo_tasks.service';
+import { TodoItemsController } from './todo_items.controller';
+import { TodoItemsService } from './todo_items.service';
 import { TodoListsService } from 'src/todo_lists/todo_lists.service';
 
-describe('TodoTasksController', () => {
-  let todoTaskService: TodoTasksService;
-  let todoTasksController: TodoTasksController;
+describe('TodoItemsController', () => {
+  let todoItemservice: TodoItemsService;
+  let todoItemsController: TodoItemsController;
 
   const mockTodoListsService = {
     get: jest.fn((id: number) => {
       if (id === 1) {
-        return { id: 1, name: 'List 1', tasks: [] };
+        return { id: 1, name: 'List 1', items: [] };
       }
       return null;
     }),
   };
 
   beforeEach(async () => {
-    todoTaskService = new TodoTasksService(
+    todoItemservice = new TodoItemsService(
       mockTodoListsService as any /* , [
       { id: 1, description: 'test1', todoListId: 1, completed: false },
       { id: 2, description: 'test2', todoListId: 2, completed: false },
@@ -25,22 +25,22 @@ describe('TodoTasksController', () => {
     );
 
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [TodoTasksController],
+      controllers: [TodoItemsController],
       providers: [
         {
           provide: TodoListsService,
           useValue: mockTodoListsService,
         },
-        { provide: TodoTasksService, useValue: todoTaskService },
+        { provide: TodoItemsService, useValue: todoItemservice },
       ],
     }).compile();
 
-    todoTasksController = app.get<TodoTasksController>(TodoTasksController);
+    todoItemsController = app.get<TodoItemsController>(TodoItemsController);
   });
 
   describe('index', () => {
-    it('should return the list of todoTasks', () => {
-      expect(todoTasksController.index()).toEqual([
+    it('should return the list of todoItems', () => {
+      expect(todoItemsController.index()).toEqual([
         { id: 1, description: 'test1', todoListId: 1, completed: false },
         { id: 2, description: 'test2', todoListId: 2, completed: false },
       ]);
@@ -48,8 +48,8 @@ describe('TodoTasksController', () => {
   });
 
   describe('show', () => {
-    it('should return the todoTask with the given id', () => {
-      expect(todoTasksController.show({ todoTaskId: 1 })).toEqual({
+    it('should return the todoItem with the given id', () => {
+      expect(todoItemsController.show({ todoItemId: 1 })).toEqual({
         id: 1,
         description: 'test1',
         todoListId: 1,
@@ -59,10 +59,10 @@ describe('TodoTasksController', () => {
   });
 
   describe('update', () => {
-    it('should update the todoTask with the given id', () => {
+    it('should update the todoItem with the given id', () => {
       expect(
-        todoTasksController.update(
-          { todoTaskId: 1 },
+        todoItemsController.update(
+          { todoItemId: 1 },
           { description: 'modified' },
         ),
       ).toEqual({
@@ -72,14 +72,14 @@ describe('TodoTasksController', () => {
         completed: false,
       });
 
-      expect(todoTaskService.get(1).description).toEqual('modified');
+      expect(todoItemservice.get(1).description).toEqual('modified');
     });
   });
 
   describe('create', () => {
-    it('should create a new todoTask', () => {
+    it('should create a new todoItem', () => {
       expect(
-        todoTasksController.create({ description: 'new', todoListId: 1 }),
+        todoItemsController.create({ description: 'new', todoListId: 1 }),
       ).toEqual({
         id: 3,
         description: 'new',
@@ -87,15 +87,15 @@ describe('TodoTasksController', () => {
         completed: false,
       });
 
-      expect(todoTaskService.all().length).toBe(3);
+      expect(todoItemservice.all().length).toBe(3);
     });
   });
 
   describe('delete', () => {
-    it('should delete the todoTask with the given id', () => {
-      expect(() => todoTasksController.delete({ todoTaskId: 1 })).not.toThrow();
+    it('should delete the todoItem with the given id', () => {
+      expect(() => todoItemsController.delete({ todoItemId: 1 })).not.toThrow();
 
-      expect(todoTaskService.all().map((x) => x.id)).toEqual([2]);
+      expect(todoItemservice.all().map((x) => x.id)).toEqual([2]);
     });
   });
 });

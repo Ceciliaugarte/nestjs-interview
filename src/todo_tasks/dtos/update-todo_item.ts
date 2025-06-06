@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 
-export class UpdateTodoTaskDto {
+export class UpdateTodoItemDto {
   @IsOptional()
   description?: string;
 

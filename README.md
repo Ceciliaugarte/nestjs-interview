@@ -4,12 +4,12 @@ Check integration tests at: (https://github.com/crunchloop/interview-tests)
 
 # 📝 ToDo List API
 
-A simple RESTful API for managing task lists (`TodoLists`) and their tasks (`Todotasks`), built with **NestJS** and **Typescript**.
+A simple RESTful API for managing item lists (`TodoLists`) and their items (`Todoitems`), built with **NestJS** and **Typescript**.
 
 This API allows users to:
 
 - Create, view, update, and delete **ToDo Lists**.
-- Add, view, update, and delete **ToDo tasks** within lists.
+- Add, view, update, and delete **ToDo items** within lists.
 
 ## Installation
 
@@ -53,15 +53,15 @@ $ npm run test:cov
 - `PUT /api/todolists/:todoListId` – Update list
 - `DELETE /api/todolists/:todoListId` – Delete list
 
-### ✅ Todotasks
+### ✅ Todoitems
 
-- `GET /api/todotasks` – Get all tasks
-- `GET /api/todotasks/:todotaskId` – Get task by ID
-- `POST /api/todotasks` – Create new task
-- `PUT /api/todotasks/:todotaskId` – Update task
-- `DELETE /api/todotasks/:todotaskId` – Delete task
+- `GET /api/todoitems` – Get all items
+- `GET /api/todoitems/:todoitemId` – Get item by ID
+- `POST /api/todoitems` – Create new item
+- `PUT /api/todoitems/:todoitemId` – Update item
+- `DELETE /api/todoitems/:todoitemId` – Delete item
 
-> ℹ️ When a `TodoList` is deleted, all its associated `Todotasks` are also removed automatically.
+> ℹ️ When a `TodoList` is deleted, all its associated `Todoitems` are also removed automatically.
 
 ## Example Request Payloads
 
@@ -83,7 +83,7 @@ PUT /api/todolists/1
 }
 ```
 
-### Create a Todotask
+### Create a Todoitem
 
 ```json
 {
@@ -92,9 +92,9 @@ PUT /api/todolists/1
 }
 ```
 
-### Update a Todotask
+### Update a Todoitem
 
-PUT /api/todotasks/2
+PUT /api/todoitems/2
 
 ```json
 {
