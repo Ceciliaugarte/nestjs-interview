@@ -46,6 +46,7 @@ export class TodoListsService {
     const index = this.todolists.findIndex((list) => list.id == Number(id));
 
     if (index === -1) throw new NotFoundException(`Todo list not found`);
+
     this.todolists.splice(index, 1);
   }
 

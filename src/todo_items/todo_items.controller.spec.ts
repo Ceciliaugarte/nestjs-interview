@@ -39,8 +39,8 @@ describe('TodoItemsController', () => {
   });
 
   describe('index', () => {
-    it('should return the list of todoItems', () => {
-      expect(todoItemsController.index()).toEqual([
+    it('should return the todoItems of a list', () => {
+      expect(todoItemsController.index({ todoListId: 1 })).toEqual([
         { id: 1, description: 'test1', todoListId: 1, completed: false },
         { id: 2, description: 'test2', todoListId: 2, completed: false },
       ]);
@@ -76,6 +76,21 @@ describe('TodoItemsController', () => {
     });
   });
 
+  describe('complete', () => {
+    it('should mark the todoItem as completed', () => {
+      const result = todoItemsController.complete({ todoItemId: 1 });
+
+      expect(result).toEqual({
+        id: 1,
+        description: 'test1',
+        todoListId: 1,
+        completed: true,
+      });
+
+      expect(todoItemservice.get(1).completed).toBe(true);
+    });
+  });
+
   describe('create', () => {
     it('should create a new todoItem', () => {
       expect(
@@ -87,7 +102,7 @@ describe('TodoItemsController', () => {
         completed: false,
       });
 
-      expect(todoItemservice.all().length).toBe(3);
+      expect(todoItemservice.all(1).length).toBe(3);
     });
   });
 
@@ -95,7 +110,7 @@ describe('TodoItemsController', () => {
     it('should delete the todoItem with the given id', () => {
       expect(() => todoItemsController.delete({ todoItemId: 1 })).not.toThrow();
 
-      expect(todoItemservice.all().map((x) => x.id)).toEqual([2]);
+      expect(todoItemservice.all(1).map((x) => x.id)).toEqual([2]);
     });
   });
 });

@@ -10,8 +10,11 @@ export class TodoItemsService {
 
   constructor(private readonly todoListsService: TodoListsService) {}
 
-  all(): TodoItem[] {
-    return this.todoItems;
+  all(listId: number): TodoItem[] {
+    const listItems = this.todoItems.filter(
+      (item) => item.todoListId == Number(listId),
+    );
+    return listItems;
   }
 
   get(id: number): TodoItem {
@@ -44,6 +47,13 @@ export class TodoItemsService {
     todoItem.description = dto.description;
     todoItem.completed = dto.completed;
 
+    return todoItem;
+  }
+
+  markAsCompleted(id: number): TodoItem {
+    const todoItem = this.todoItems.find((item) => item.id === Number(id));
+    if (!todoItem) throw new NotFoundException('Todo Item not found');
+    todoItem.completed = true;
     return todoItem;
   }
 

@@ -24,8 +24,8 @@ describe('TodoListsController', () => {
   describe('index', () => {
     it('should return the list of todolist', () => {
       expect(todoListsController.index()).toEqual([
-        { id: 1, name: 'test1' },
-        { id: 2, name: 'test2' },
+        { id: 1, name: 'test1', items: [] },
+        { id: 2, name: 'test2', items: [] },
       ]);
     });
   });
@@ -35,6 +35,7 @@ describe('TodoListsController', () => {
       expect(todoListsController.show({ todoListId: 1 })).toEqual({
         id: 1,
         name: 'test1',
+        items: [],
       });
     });
   });
@@ -54,6 +55,7 @@ describe('TodoListsController', () => {
       expect(todoListsController.create({ name: 'new' })).toEqual({
         id: 3,
         name: 'new',
+        items: [],
       });
 
       expect(todoListService.all().length).toBe(3);

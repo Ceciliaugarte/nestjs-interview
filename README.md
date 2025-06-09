@@ -1,7 +1,3 @@
-Check integration tests at: (https://github.com/crunchloop/interview-tests)
-
----
-
 # 📝 ToDo List API
 
 A simple RESTful API for managing item lists (`TodoLists`) and their items (`Todoitems`), built with **NestJS** and **Typescript**.
@@ -43,9 +39,9 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## 📦 API Endpoints
+## API Endpoints
 
-### 🗂️ TodoLists
+### TodoLists
 
 - `GET /api/todolists` – Get all lists
 - `GET /api/todolists/:todoListId` – Get list by ID
@@ -53,15 +49,14 @@ $ npm run test:cov
 - `PUT /api/todolists/:todoListId` – Update list
 - `DELETE /api/todolists/:todoListId` – Delete list
 
-### ✅ Todoitems
+### Todoitems
 
-- `GET /api/todoitems` – Get all items
+- `GET /api/todoitems/list/:todoListId` – Get all items from a list (By list ID)
 - `GET /api/todoitems/:todoitemId` – Get item by ID
 - `POST /api/todoitems` – Create new item
 - `PUT /api/todoitems/:todoitemId` – Update item
+- `PUT /api/todoitems/:todoitemId/complete` – Complete an item
 - `DELETE /api/todoitems/:todoitemId` – Delete item
-
-> ℹ️ When a `TodoList` is deleted, all its associated `Todoitems` are also removed automatically.
 
 ## Example Request Payloads
 
@@ -98,7 +93,6 @@ PUT /api/todoitems/2
 
 ```json
 {
-  "description": "Buy organic eggs",
-  "completed": true
+  "description": "Buy organic eggs"
 }
 ```
