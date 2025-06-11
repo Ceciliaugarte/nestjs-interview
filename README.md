@@ -1,4 +1,4 @@
-# 📝 ToDo List API
+# ToDo API
 
 A simple RESTful API for managing item lists (`TodoLists`) and their items (`Todoitems`), built with **NestJS** and **Typescript**.
 
