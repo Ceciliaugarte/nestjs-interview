@@ -16,7 +16,7 @@ Clone the repository and install dependencies:
 $ npm install
 ```
 
-## Running the app
+## Running the API
 
 ```bash
 # Development mode
@@ -24,22 +24,6 @@ $ npm run start
 
 # Watch mode
 $ npm run start:dev
-
-# Production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## API Endpoints
@@ -58,7 +42,7 @@ $ npm run test:cov
 - `GET /api/todoitems/:todoitemId` – Get item by ID
 - `POST /api/todoitems` – Create new item
 - `PUT /api/todoitems/:todoitemId` – Update item
-- `PUT /api/todoitems/:todoitemId/complete` – Complete an item
+- `PATCH /api/todoitems/:todoitemId/complete` – Complete an item
 - `DELETE /api/todoitems/:todoitemId` – Delete item
 
 ### Example Requests:
@@ -100,15 +84,32 @@ PUT /api/todoitems/2
 }
 ```
 
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
 ## MCP Integration:
 
 This project integrates with Model Context Protocol (MCP), allowing interaction with the ToDo API via natural language.
 
 ### Run the MCP Server:
 
+Open a different terminal session and run:
+
 ```bash
 $ npm run start:mcp
 ```
+
+This command exposes the available tools (listed below) to MCP Clients.
 
 ### Available MCP Tools:
 
@@ -126,27 +127,52 @@ $ npm run start:mcp
 | complete_item     | Marks an item as completed   | itemId: string                                          |
 | delete_item       | Deletes an item              | itemId: string                                          |
 
-### Example prompt (Claude Desktop)
+If you are using Claude Desktop as a client, you need to configure it to connect to the MCP API server:
 
--> "Create a new todo list called 'Work Tasks' "
+- Open Claude Desktop
+- Go to Menu -> File -> Settings
+- In the Developer section, click Add Config
+- Open the claude_desktop_config file and paste the following:
+
+```json
+{
+  "mcpServers": {
+    "todo-api": {
+      "command": "npm",
+      "args": [
+        "--silent",
+        "--prefix",
+        "/Users/yourUsername/yourPathToTheProject/nestjs-interview",
+        "run",
+        "start:mcp"
+      ],
+      "cwd": "/Users/yourUsername/yourPathToTheProject/nestjs-interview"
+    }
+  }
+}
+```
+
+Replace /Users/yourUsername/yourPathToTheProject/nestjs-interview with the absolute path to the root directory of your project.
+
+Once configured, reopen Claude Desktop and it will connect to your local MCP server, allowing you to interact with the API using natural language.
+
+### Example prompt
+
+→ "Create a new todo list called 'Work Tasks'"
 
 MCP Client will call the create_list tool with:
 
-json
-
-```
+```json
 {
   "name": "Work Tasks"
 }
 ```
 
--> "Add a new item 'Prepare presentation' to list with ID 2 "
+→ "Add a new item 'Prepare presentation' to list 'Work Tasks'"
 
 MCP Client will call create_item with:
 
-json
-
-```
+```json
 {
   "todoListId": "2",
   "description": "Prepare presentation"

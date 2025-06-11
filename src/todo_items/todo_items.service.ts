@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTodoItemDto } from './dtos/create-todo_Item';
 import { UpdateTodoItemDto } from './dtos/update-todo_Item';
 import { TodoItem } from 'src/interfaces/todo_item.interface';
-import { TodoListsService } from 'src/todo_lists/todo_lists.service';
+import { TodoListsService } from '../todo_lists/todo_lists.service';
 
 @Injectable()
 export class TodoItemsService {
   private readonly todoItems: TodoItem[] = [];
 
-  constructor(private readonly todoListsService: TodoListsService) {}
+  constructor(private todoListsService: TodoListsService) {}
 
   all(listId: number): TodoItem[] {
     const currentList = this.todoListsService.get(listId);

@@ -4,7 +4,7 @@ import { z } from 'zod';
 const API_URL = process.env.API_URL || 'http://localhost:3000/api';
 
 const server = new McpServer({
-  name: 'todo-app',
+  name: 'todo-api',
   version: '1.0.0',
 });
 

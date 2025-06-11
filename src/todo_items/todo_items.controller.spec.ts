@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoItemsController } from './todo_items.controller';
 import { TodoItemsService } from './todo_items.service';
-import { TodoListsService } from 'src/todo_lists/todo_lists.service';
+import { TodoListsService } from '../todo_lists/todo_lists.service';
 
 describe('TodoItemsController', () => {
   let todoItemservice: TodoItemsService;
@@ -17,12 +17,12 @@ describe('TodoItemsController', () => {
   };
 
   beforeEach(async () => {
-    todoItemservice = new TodoItemsService(
-      mockTodoListsService as any /* , [
+    todoItemservice = new TodoItemsService(mockTodoListsService as any);
+
+    (todoItemservice as any).todoItems = [
       { id: 1, description: 'test1', todoListId: 1, completed: false },
-      { id: 2, description: 'test2', todoListId: 2, completed: false },
-    ] */,
-    );
+      { id: 2, description: 'test2', todoListId: 1, completed: false },
+    ];
 
     const app: TestingModule = await Test.createTestingModule({
       controllers: [TodoItemsController],
@@ -42,7 +42,7 @@ describe('TodoItemsController', () => {
     it('should return the todoItems of a list', () => {
       expect(todoItemsController.index({ todoListId: 1 })).toEqual([
         { id: 1, description: 'test1', todoListId: 1, completed: false },
-        { id: 2, description: 'test2', todoListId: 2, completed: false },
+        { id: 2, description: 'test2', todoListId: 1, completed: false },
       ]);
     });
   });

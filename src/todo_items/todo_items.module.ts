@@ -7,5 +7,6 @@ import { TodoListsModule } from 'src/todo_lists/todo_lists.module';
   imports: [TodoListsModule],
   controllers: [TodoItemsController],
   providers: [TodoItemsService],
+  exports: [TodoItemsService],
 })
 export class TodoItemsModule {}
