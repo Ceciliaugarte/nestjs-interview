@@ -11,6 +11,8 @@ export class TodoItemsService {
   constructor(private readonly todoListsService: TodoListsService) {}
 
   all(listId: number): TodoItem[] {
+    const currentList = this.todoListsService.get(listId);
+    if (!currentList) throw new NotFoundException(`Todo List not found`);
     const listItems = this.todoItems.filter(
       (item) => item.todoListId == Number(listId),
     );
@@ -28,7 +30,7 @@ export class TodoItemsService {
       id: this.nextId(),
       description: dto.description,
       completed: false,
-      todoListId: dto.todoListId,
+      todoListId: Number(dto.todoListId),
     };
 
     const todoList = this.todoListsService.get(dto.todoListId);
@@ -44,9 +46,10 @@ export class TodoItemsService {
     const todoItem = this.todoItems.find((Item) => Item.id == Number(id));
     if (!todoItem) throw new NotFoundException(`Todo Item not found`);
 
-    todoItem.description = dto.description;
-    todoItem.completed = dto.completed;
-
+    if (dto.description) todoItem.description = dto.description;
+    if (dto.completed !== undefined) {
+      todoItem.completed = dto.completed;
+    }
     return todoItem;
   }
 
@@ -59,7 +62,11 @@ export class TodoItemsService {
 
   delete(id: number): void {
     const index = this.todoItems.findIndex((Item) => Item.id == Number(id));
-
+    const item = this.todoItems[index];
+    const todoList = this.todoListsService.get(item.todoListId);
+    if (todoList) {
+      todoList.items = todoList.items.filter((i) => i.id !== item.id);
+    }
     if (index === -1) throw new NotFoundException(`Todo Item not found`);
     this.todoItems.splice(index, 1);
   }
